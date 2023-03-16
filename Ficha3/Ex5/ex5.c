@@ -20,7 +20,7 @@ int mysystem(char ** command){
     }
     else if(!pid){
         exec_return = execvp(command[0], command);
-        _exit(0);
+        _exit(1);
     }
     else {
         pid_t terminated_pid = wait(&status); 
@@ -41,6 +41,8 @@ int main(int argc, char * argv[]){
 
     while((readedBytes = read(0, buffer, MAX_BUFFER_SIZE)) > 0){
         char * args[20];
+
+        buffer[readedBytes-1] = '\0'; //Retirar o \n do input e substituir pelo fim de linha.
         char * arg = strtok(buffer," ");
    
         int i = 0;
@@ -51,7 +53,7 @@ int main(int argc, char * argv[]){
         }
 
         
-        if(args[i-1] == "&" ){
+        if(strcmp(args[i-1], "&") == 0){
             //Execução em segundo plano
             if((pid = fork()) < 0){
                 perror("Error using fork()!\n");
@@ -59,11 +61,8 @@ int main(int argc, char * argv[]){
             }
             else if (!pid){
                 args[i-1] = NULL;
-                mysystem(args);
-            }
-            else wait(&status);
-                
-
+                execvp(args[0], args);
+            } 
         }
         else{
             args[i] = NULL;
@@ -71,9 +70,5 @@ int main(int argc, char * argv[]){
             mysystem(args);
         }
     }
-
-    
-
-
     return 0;
 }

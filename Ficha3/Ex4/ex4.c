@@ -28,7 +28,7 @@ int mysystem(char * command){
     }
     else if(!pid){
         exec_return = execvp(args[0], args);
-        _exit(0);
+        _exit(1);
     }
     else {
         pid_t terminated_pid = wait(&status); 
