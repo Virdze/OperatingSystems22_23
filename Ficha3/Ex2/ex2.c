@@ -14,7 +14,7 @@ int main(int argc, char * argv[]){
     }
     else if (!pid) {
         int exec_return = execlp("ls","-l",NULL);
-        _exit(0);
+        _exit(1);
     }
     else{
         pid_t terminated_pid = wait(&status);
