@@ -20,7 +20,7 @@ int main(int argc, char *argv[]){
     char * buffer = malloc(sizeof(char) * MAX_BUFFER_SIZE);
 
 
-    while((readedBytes = read(fifo_fd, buffer, MAX_BUFFER_SIZE)) > 0 && buffer[0] != '\n'){
+    while((readedBytes = read(fifo_fd, buffer, MAX_BUFFER_SIZE)) > 0){
         write(1, buffer, readedBytes);
     }
 
